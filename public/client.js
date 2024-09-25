@@ -22,16 +22,41 @@ const controls = new OrbitControls(camera, renderer.domElement);
 // scene.add(light);
 
 // Define a simple leaf geometry
-const geometry = new THREE.ConeGeometry(0.5, 2, 2);
-geometry.rotateX(Math.PI / 2);
-geometry.rotateZ(Math.PI / 2);
-const material = new THREE.MeshBasicMaterial({
-    color: new THREE.Color(Math.random(), 255, 0)
-});
+class Leaf {
+    constructor() {
+        const geometry = new THREE.ConeGeometry(0.5, 2, 2);
+        geometry.rotateX(Math.PI / 2);
+        geometry.rotateZ(Math.PI / 2);
+        const material = new THREE.MeshBasicMaterial({
+            color: new THREE.Color(0, 1, 0)
+        });
+        this.mesh = new THREE.Mesh(geometry, material);
+        this.mesh.position.set(
+            Math.random() * 5 - 2.5,
+            Math.random() * 10 + 5,
+            Math.random() * 5 - 2.5,
+        );
+        scene.add(this.mesh);
+    }
+    move() {
+        // leaf.rotation.y += 0.002;
+        // leaf.rotation.z += Math.random() * 0.002;
+        // leaf.rotation.x += Math.random() * 0.002;
+        this.mesh.rotation.y += Math.random() * 0.1;
+        this.mesh.rotation.x += Math.random() * 0.002;
+        this.mesh.rotation.z += Math.random() * 0.002;
+        this.mesh.position.y -= 0.01 * Math.random();
+        this.mesh.material.color.r += 0.001;
+        this.mesh.material.color.g -= 0.0001;
+    }
 
-const leaf = new THREE.Mesh(geometry, material);
-scene.add(leaf);
+}
 
+let leaves = [];
+for (let i = 0; i < 20; i++) {
+    leaves.push(new Leaf());
+
+}
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -47,6 +72,9 @@ const cameraFolder = gui.addFolder('Camera');
 cameraFolder.add(camera.position, 'z', 0, 10);
 cameraFolder.open();
 
+let fc = 0;
+
+
 // Color transformation from green to brown
 function updateColor() {
     // const time = Date.now() * 0.001; // Current time in seconds
@@ -56,11 +84,20 @@ function updateColor() {
 }
 
 function animate() {
+    fc++;
     requestAnimationFrame(animate);
-    updateColor();
-    leaf.rotation.y += 0.002;  
-    leaf.rotation.z += Math.random() * 0.002; 
-    leaf.rotation.x += Math.random() * 0.002; 
+    // updateColor();
+    leaves.forEach(leaf => {
+        leaf.move();
+    });
+    // leaf.rotation.y += 0.002;
+    // leaf.rotation.z += Math.random() * 0.002;
+    // leaf.rotation.x += Math.random() * 0.002;
+
+    if (fc % 10 == 0) {
+        leaves.push(new Leaf());
+    }
+
     controls.update();
     render();
     stats.update();
