@@ -1,13 +1,5 @@
-// import * as THREE from 'three';
-// import { OrbitControls } from './jsm/controls/OrbitControls.js';
-// import Stats from './jsm/libs/stats.module.js';
-// import { GUI } from './jsm/libs/lil-gui.module.min.j
-
-// import * as THREE from "/node_modules/three/build/three.module.js";
 import * as THREE from 'https://unpkg.com/three/build/three.module.js';
-// import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls.js';
 import { OrbitControls } from "https://unpkg.com/three@0.128.0/examples/jsm/controls/OrbitControls.js";
-// import { OrbitControls } from './OrbitControls.js';
 
 const scene = new THREE.Scene();
 
@@ -20,12 +12,6 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
-
-// Create a point light
-// const light = new THREE.PointLight(0xffffff, 100, 100);
-// const light = new THREE.AmbientLight(0xffffff, 1, 100);
-// light.position.set(5, 5, 5);
-// scene.add(light);
 
 class Leaf {
     constructor() {
@@ -84,35 +70,15 @@ window.addEventListener('resize', () => {
     render();
 }, false);
 
-// const stats = Stats();
-// document.body.appendChild(stats.dom);
-
-// const gui = new GUI();
-// const cameraFolder = gui.addFolder('Camera');
-// cameraFolder.add(camera.position, 'z', 0, 10);
-// cameraFolder.open();
-
 let fc = 0;
 
-
-// Color transformation from green to brown
-function updateColor() {
-    // const time = Date.now() * 0.001; // Current time in seconds
-    // const greenToBrown = (1 - Math.abs(Math.sin(time * 0.5)));
-    // color.setHSL(0.1, 1, greenToBrown);  // Continuously shift hue from green to brown
-    // material.color = color;
-}
 
 function animate() {
     fc++;
     requestAnimationFrame(animate);
-    // updateColor();
     leaves.forEach(leaf => {
         leaf.move();
     });
-    // leaf.rotation.y += 0.002;
-    // leaf.rotation.z += Math.random() * 0.002;
-    // leaf.rotation.x += Math.random() * 0.002;
 
     if (fc % 10 == 0) {
         leaves.push(new Leaf());
@@ -120,7 +86,6 @@ function animate() {
 
     controls.update();
     render();
-    // stats.update();
 }
 
 function render() {
