@@ -1,7 +1,13 @@
-import * as THREE from 'three';
-import { OrbitControls } from './jsm/controls/OrbitControls.js';
-import Stats from './jsm/libs/stats.module.js';
-import { GUI } from './jsm/libs/lil-gui.module.min.js';
+// import * as THREE from 'three';
+// import { OrbitControls } from './jsm/controls/OrbitControls.js';
+// import Stats from './jsm/libs/stats.module.js';
+// import { GUI } from './jsm/libs/lil-gui.module.min.j
+
+// import * as THREE from "/node_modules/three/build/three.module.js";
+import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+// import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls.js';
+import { OrbitControls } from "https://unpkg.com/three@0.128.0/examples/jsm/controls/OrbitControls.js";
+// import { OrbitControls } from './OrbitControls.js';
 
 const scene = new THREE.Scene();
 
@@ -78,13 +84,13 @@ window.addEventListener('resize', () => {
     render();
 }, false);
 
-const stats = Stats();
-document.body.appendChild(stats.dom);
+// const stats = Stats();
+// document.body.appendChild(stats.dom);
 
-const gui = new GUI();
-const cameraFolder = gui.addFolder('Camera');
-cameraFolder.add(camera.position, 'z', 0, 10);
-cameraFolder.open();
+// const gui = new GUI();
+// const cameraFolder = gui.addFolder('Camera');
+// cameraFolder.add(camera.position, 'z', 0, 10);
+// cameraFolder.open();
 
 let fc = 0;
 
@@ -114,7 +120,7 @@ function animate() {
 
     controls.update();
     render();
-    stats.update();
+    // stats.update();
 }
 
 function render() {
