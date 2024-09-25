@@ -21,35 +21,49 @@ const controls = new OrbitControls(camera, renderer.domElement);
 // light.position.set(5, 5, 5);
 // scene.add(light);
 
-// Define a simple leaf geometry
 class Leaf {
     constructor() {
         const geometry = new THREE.ConeGeometry(0.5, 2, 2);
         geometry.rotateX(Math.PI / 2);
         geometry.rotateZ(Math.PI / 2);
         const material = new THREE.MeshBasicMaterial({
-            color: new THREE.Color(0, 1, 0)
-        });
+            color: new THREE.
+                Color(0.0, Math.min(0.6, Math.random()), 0.0)
+        }); // Starting color green
         this.mesh = new THREE.Mesh(geometry, material);
         this.mesh.position.set(
-            Math.random() * 5 - 2.5,
+            Math.random() * 20 - 10,
             Math.random() * 10 + 5,
             Math.random() * 5 - 2.5,
         );
+        this.velocityY = 0;  // Initial falling velocity
         scene.add(this.mesh);
     }
-    move() {
-        // leaf.rotation.y += 0.002;
-        // leaf.rotation.z += Math.random() * 0.002;
-        // leaf.rotation.x += Math.random() * 0.002;
-        this.mesh.rotation.y += Math.random() * 0.1;
-        this.mesh.rotation.x += Math.random() * 0.002;
-        this.mesh.rotation.z += Math.random() * 0.002;
-        this.mesh.position.y -= 0.01 * Math.random();
-        this.mesh.material.color.r += 0.001;
-        this.mesh.material.color.g -= 0.0001;
-    }
 
+    move() {
+        // Flutter effect with random rotation
+        this.mesh.rotation.y += (0.01 * Math.random());
+        this.mesh.rotation.x += (0.02 * Math.random());
+        this.mesh.rotation.z += (0.01 * Math.random());
+
+        // Simulating gravity
+        this.velocityY += 0.001;  // Gravity effect
+        this.mesh.position.y -= this.velocityY * 0.08;
+
+        // Change color over time to simulate aging
+        if (this.mesh.material.color.g > 0.6) { // Green to yellow transition
+            this.mesh.material.color.g -= 0.0005;
+        } else if (this.mesh.material.color.r < 1) { // Yellow to orange/brown
+            this.mesh.material.color.g -= 0.0005;
+            this.mesh.material.color.r += 0.001;
+        }
+
+        // Remove the leaf if it goes too low
+        if (this.mesh.position.y < -10) {
+            scene.remove(this.mesh);
+            leaves.splice(leaves.indexOf(this), 1);
+        }
+    }
 }
 
 let leaves = [];
